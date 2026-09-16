@@ -1,0 +1,11 @@
+﻿{
+  "name": "satsure-sdet-assignment",
+  "version": "1.0.0",
+  "scripts": {
+    "test:ui": "playwright test tests/ui",
+    "test:api": "playwright test tests/api"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  }
+}
