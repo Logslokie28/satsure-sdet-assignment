@@ -1,0 +1,61 @@
+# Task 3: Test Cases (UI & API)
+
+### TC-UI-001: Suggestion Selection & Text Population
+* **Preconditions:** Browser open at `https://test.com/autocomplete-form`.
+* **Test Steps:**
+  1. Focus on `#input-field`.
+  2. Type `agile`.
+  3. Click `<li>agile methodology</li>` from `.suggestions`.
+* **Expected Result:** `#input-field` value updates to `"agile methodology"`.
+* **Test Data:** `agile`
+
+### TC-UI-002: Default Prefix Filtering (FR-02)
+* **Preconditions:** Form loaded.
+* **Test Steps:**
+  1. Type `process` into `#input-field`.
+* **Expected Result:** All suggestions disappear from `.suggestions` as none begin with `process`.
+* **Test Data:** `process`
+
+### TC-UI-003: Match Anywhere Filtering Configuration (FR-03)
+* **Preconditions:** Configurable backend toggle enabled for match anywhere.
+* **Test Steps:**
+  1. Type `process` into `#input-field`.
+* **Expected Result:** `agile methodology process` and `agile methodology process testing` remain visible.
+* **Test Data:** `process`
+
+### TC-UI-004: Form Submission & Success Message
+* **Preconditions:** Valid suggestion selected.
+* **Test Steps:**
+  1. Select `agile methodology`.
+  2. Click `#next-button`.
+* **Expected Result:** HTTP 200 returned; `.success-container` becomes visible; `.error-message` is hidden.
+* **Test Data:** `agile methodology`
+
+### TC-UI-005: Form Submission with Invalid Input
+* **Preconditions:** Form loaded.
+* **Test Steps:**
+  1. Type `invalid term` in `#input-field`.
+  2. Click `#next-button`.
+* **Expected Result:** `.error-message` displays "Error: Invalid input. Please select a valid suggestion."
+* **Test Data:** `invalid term`
+
+### TC-UI-006: Keyboard Accessibility & Tab Order
+* **Preconditions:** Form loaded.
+* **Test Steps:**
+  1. Focus address bar and press `Tab` key iteratively.
+* **Expected Result:** Focus moves in order: `#input-field` -> `.suggestions li` items -> `#next-button`.
+* **Test Data:** N/A
+
+### TC-API-001: Backend Data Contract Schema & Type Validation
+* **Preconditions:** Endpoint accessible.
+* **Test Steps:**
+  1. Execute `GET` request for persisted form data.
+* **Expected Result:** HTTP 200; JSON response contains keys `account_id`, `account_email`, `start_date`, `end_date`, `locale`, `text`, `suggestion_list`, `completed`; `completed` is a boolean.
+* **Test Data:** User `test123@gmail.com`
+
+### TC-API-002: Local Timezone Formatting & Locale Validation
+* **Preconditions:** Form completed in India timezone (IST).
+* **Test Steps:**
+  1. Execute `GET` request for persisted record.
+* **Expected Result:** `locale` equals `"en-IN"`; `start_date` and `end_date` reflect local IST offset (+05:30).
+* **Test Data:** IST Timezone
